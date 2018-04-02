@@ -73,12 +73,13 @@ public class PracticalTest01Var07MainActivity extends AppCompatActivity {
     private class MessageBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d(Constants.TAG, "received broadcast");
+
             int num1 = intent.getIntExtra(Constants.FIELD1, 0);
             int num2 = intent.getIntExtra(Constants.FIELD2, 0);
             int num3 = intent.getIntExtra(Constants.FIELD3, 0);
             int num4 = intent.getIntExtra(Constants.FIELD4, 0);
 
-            Log.d(Constants.TAG, "main received");
 
             num1_text.setText(Integer.toString(num1));
             num2_text.setText(Integer.toString(num2));
@@ -132,5 +133,16 @@ public class PracticalTest01Var07MainActivity extends AppCompatActivity {
             stopService(intent);
         }
         super.onDestroy();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(messageBroadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(messageBroadcastReceiver);
+        super.onPause();
     }
 }
